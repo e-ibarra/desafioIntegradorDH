@@ -24,7 +24,7 @@ let cancionesController = {
         }); 
     },
 
-    store: (req, res) => {
+     store: (req, res) => {
         
         db.Cancion
         
@@ -48,7 +48,7 @@ let cancionesController = {
         });
     },
 
-    show: (req, res) => {
+     show: (req, res) => {
         db.Cancion.findByPk(req.params.id, {include: ["genero","artista"]})
         .then(function(cancion){
             return res.status(200).json({
@@ -63,15 +63,15 @@ let cancionesController = {
             });
         }); 
     },
-    delete: (req, res) => {
+     delete: (req, res) => {
          db.Cancion
          .destroy({
              where: { 
                  id: req.params.id
              }
          })
-             .then((response)=>{
-                 return res.json(response)
+             .then((cancion)=>{
+                 return res.json(cancion,cancioneliminada)
              })
              .catch(function(error){
                 return res.status(500).json({
@@ -80,8 +80,35 @@ let cancionesController = {
                 });
             }); 
          
-     }
-     /* search : (req, res) => {
+     },
+
+
+     edit: (req, res) => {
+        
+        db.Cancion 
+            .update(req.body, {
+            where: { 
+                id: req.params.id
+            }
+            
+        })
+        .then(function(cancion){
+             return res.status(200).json({
+                data: cancion,
+                status: 200,
+                updated : 'ok'
+            })
+            
+        }) 
+        
+        .catch(function(error){
+            return res.status(500).json({
+                error: error,
+                status: "oh no, no funciona"
+            });
+        });
+    },
+     search : (req, res) => {
          db.Cancion.findAll({
              where: {
                  titulo: { [db.Sequelize.Op.like]: '%' + req.query.keyword + '%' }
@@ -97,10 +124,10 @@ let cancionesController = {
                 status: 500
             });
         });  
-    } */
-}
+    }
+        }
 
-  /*   save: (req, res) => {
+     /*   save: (req, res) => {
         db.Cancion.create({
             .create(req.body)
             .then(cancion =>{
@@ -112,9 +139,9 @@ let cancionesController = {
             })
         })
         res.redirect("/canciones");
-    }, */
+     }, */
     
-   /*  edit: (req, res) => {
+     /*  edit: (req, res) => {
         let cancionEdit = db.Cancion.findByPk(req.params.id, {include: ["genero", "album", "artista"]})
         let generosEdit = db.Genero.findAll();
         Promise.all([cancionEdit, generosEdit])
@@ -123,7 +150,7 @@ let cancionesController = {
         }
 
         )}, */
-    /* update: (req, res) => { 
+     /* update: (req, res) => { 
         db.Cancion.update({
             id: req.body.id,
             titulo: req.body.id,

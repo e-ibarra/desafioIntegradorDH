@@ -6,11 +6,13 @@ var cancionesController = require ("../controllers/cancionesController")
 
 router.get ("/", cancionesController.list);
 
-//router.get ("/search", cancionesController.search);
+router.get ("/search", cancionesController.search);
 
 router.post("/", cancionesController.store);
 
 router.get ("/:id", cancionesController.show);
+
+router.put ("/:id", cancionesController.edit);
 
 router.delete ("/:id", cancionesController.delete);
 
