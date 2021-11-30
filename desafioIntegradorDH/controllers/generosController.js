@@ -2,17 +2,20 @@ let db = require("../src/database/models");
 //const { Op } = require("sequelize");
 const Op =db.Sequelize.Op;
 
-let generosController = {
+module.exports ={
+
     list: (req, res) => {
-        db.Genero.findAll()
+        db.Genero.findAll( {include: ["canciones"]} )
         .then(function(generos){
-           // console.log(canciones);
+           
              return res.status(200).json({
                 total: generos.length,
                 data: generos,
                 status: "200"
             });
         })
+
+        
         
         
         .catch(function(error){
@@ -23,6 +26,5 @@ let generosController = {
         }); 
     }
     
-};
+}
 
-module.exports = generosController;

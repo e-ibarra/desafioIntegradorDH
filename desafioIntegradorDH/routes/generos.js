@@ -7,3 +7,5 @@ router.get ("/", generosController.list);
 
 
 module.exports = router;
+
+
