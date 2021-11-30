@@ -8,9 +8,10 @@ let cancionesController = {
         db.Cancion.findAll()
         .then(function(canciones){
            // console.log(canciones);
-             return res.json({
-                canciones
-                
+             return res.status(200).json({
+                total: canciones.length,
+                data: canciones,
+                status: "200"
             });
         })
         
@@ -23,10 +24,12 @@ let cancionesController = {
         }); 
     },
 
-     store: (req, res) => {
-         
+    store: (req, res) => {
+        
         db.Cancion
-        .create(req.body,{include: ["genero","album", "artista"]})
+        
+        
+        .create(req.body)
         
         .then(function(cancion){
              return res.status(200).json({
@@ -35,7 +38,7 @@ let cancionesController = {
                 created : 'ok'
             })
             
-        })
+        }) 
         
         .catch(function(error){
             return res.status(500).json({
