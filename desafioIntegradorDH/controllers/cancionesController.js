@@ -1,17 +1,17 @@
 let db = require("../src/database/models");
 //const { Op } = require("sequelize");
-//const Op =db.Sequelize.Op;
+const Op =db.Sequelize.Op;
 
 
 let cancionesController = {
     list: (req, res) => {
         db.Cancion.findAll()
         .then(function(canciones){
-            console.log(canciones);
-            /* return res.json({
+           // console.log(canciones);
+             return res.json({
                 canciones
                 
-            });*/ 
+            });
         })
         
         
@@ -26,7 +26,7 @@ let cancionesController = {
      store: (req, res) => {
          
         db.Cancion
-        .create(req.body, {include: ["genero","album", "artista"]})
+        .create(req.body,{include: ["genero","album", "artista"]})
         
         .then(function(cancion){
              return res.status(200).json({

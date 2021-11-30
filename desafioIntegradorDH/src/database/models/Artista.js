@@ -28,11 +28,11 @@ module.exports = (sequelize, dataTypes) => {
   
     Artista.associate = models => {
       
-      Artista.hasMany(models.Cancion, {
+      Artista.hasOne(models.Cancion, {
         as: "canciones",
         foreignKey: "artista_id",
       });
     };
   
-    return Artista;
+    return Artista; 
   };
