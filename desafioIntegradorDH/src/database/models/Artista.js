@@ -28,7 +28,7 @@ module.exports = (sequelize, dataTypes) => {
   
     Artista.associate = models => {
       
-      Artista.hasOne(models.Cancion, {
+      Artista.hasMany(models.Cancion, {
         as: "canciones",
         foreignKey: "artista_id",
       });

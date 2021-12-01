@@ -28,21 +28,14 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.INTEGER,
       allowNull: false,
     },
-    created_at: {
-      type: dataTypes.DATE,
-      allowNull: false,
-    },
-    updated_at: { 
-      type: dataTypes.DATE,
-      allowNull: false,
-    }, 
-
-    
+        
   };
 
   let config = {
     tableName: "canciones",
-    timestamps: false,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     deletedAt: false,
   };
 
@@ -51,7 +44,7 @@ module.exports = (sequelize, dataTypes) => {
   Cancion.associate = models => {
     
      Cancion.belongsTo(models.Album, {
-      as: "albumes",
+      as: "album",
       foreignKey: "album_id",
     });  
     Cancion.belongsTo(models.Artista, {
