@@ -1,6 +1,6 @@
 let db = require("../src/database/models");
 const Cancion = require("../src/database/models/Cancion");
-//const { Op } = require("sequelize");
+
 const Op =db.Sequelize.Op;
 
 
@@ -35,7 +35,7 @@ let cancionesController = {
         .then(function(cancion){
         return res.status(200).json({
             meta: {
-            status: 200,
+            status: 201,
             created: "ok",
             url: req.protocol + "://" + req.get("host") + req.originalUrl + cancion.id,
         },

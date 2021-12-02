@@ -9,9 +9,12 @@ module.exports ={
         .then(function(generos){
            
              return res.status(200).json({
+                meta:{
                 total: generos.length,
-                data: generos,
-                status: "200"
+                status: "200",
+                url: req.protocol + "://" + req.get("host") + req.originalUrl,
+                },
+                data: generos
             });
         })
 
@@ -21,7 +24,7 @@ module.exports ={
         .catch(function(error){
             return res.status(500).json({
                 error: error,
-                status: "la concha de tu madre esta poronga no funciona"
+                status: "500",
             });
         }); 
     }
