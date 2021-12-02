@@ -15,6 +15,7 @@ module.exports = (sequelize, dataTypes) => {
     duracion: {
       type: dataTypes.INTEGER,
       
+      
     },
     album_id: {
       type: dataTypes.INTEGER,

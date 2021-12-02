@@ -1,4 +1,5 @@
 let db = require("../src/database/models");
+const Cancion = require("../src/database/models/Cancion");
 //const { Op } = require("sequelize");
 const Op =db.Sequelize.Op;
 
@@ -87,6 +88,14 @@ let cancionesController = {
              }
          })
              .then((cancion)=>{
+                if(!cancion){
+                    return res.status(404).json({
+                        meta: {
+                            status: 404,
+                            notfound: "este registro no existe",
+                        }
+                    });
+                }else{
                 return res.status(200).json({
                     meta: {
                         status: 200,
@@ -95,7 +104,7 @@ let cancionesController = {
                     },
                     data: cancion,
                     status: 200
-                });
+                })};
              })
              .catch(function(error){
                 return res.status(500).json({
@@ -105,9 +114,11 @@ let cancionesController = {
             }); 
          
         },
-        edit: (req, res) => {
+        edit: async (req, res) => {
+            let id = req.params.id;
+            let idToUpdate = await db.Cancion.findByPk(id);
         
-            db.Cancion 
+            await db.Cancion 
             .update(req.body, {
                 where: { 
                     id: req.params.id
@@ -115,12 +126,15 @@ let cancionesController = {
                 
             })
             .then(function(cancion){
-                return res.status(200).json({
-                    status: 200,
-                    url: req.protocol + "://" + req.get("host") + req.originalUrl,
-                    updated : 'ok',
-                    data: cancion,
-                })
+                if(idToUpdate == null){
+                    return res.status(404).json({
+                        meta: {
+                            status: 404,
+                            notfound: "este registro no existe",
+                        }
+                    })
+                
+                    
            
                 .catch(function(error){
                     return res.status(500).json({
@@ -129,58 +143,25 @@ let cancionesController = {
                         data: cancion
                     });
                 },
-            )    
-            /* .then(function(Updated){
-            db.Cancion.findByPk(req.params.id, {include: ["genero","artista"]});
-            return res.status(200).json({
-                    meta: {
+            );}else{
+                return res.status(200).json({
                     status: 200,
                     url: req.protocol + "://" + req.get("host") + req.originalUrl,
-            },
-                     data: Updated,
-            })}
+                    updated : 'ok',
+                    data: cancion,
+                })
                 .catch(function(error){
-                    return res.status(500).json({
-                        error: error,
-                        status: "oh no, no funciona"
-                    });
-                },)
-            ) 
-             */
+                return res.status(500).json({
+                    error: error,
+                    status: 500
+                });
+            });
+            }
         })
             
-    },
-    
-        
-        /* 
-     edit: (req, res) => {
-         //let updatedd = db.Cancion 
-         .update(req.body, {
-             where: { 
-                 id: req.params.id
-                }
-                
-            })
-           //let cancionActualizada = db.Cancion.findByPk(req.params.id, {include: ["genero","artista"]});
-            //Promise.all([cancionActualizada, updated])
-            .then((cancionActualizada) => {
-                return res.status(200).json({
-                Updated_data: cancionActualizada,
-                status: 200,
-                updated : 'ok'
-            })
-            //.then( )
-        })
-        
-        
-        .catch(function(error){
-            return res.status(500).json({
-                status: "we have a problem",
-                error: error,
-            });
-        });
-     }, */
-     search : (req, res) => {
+     },
+/* 
+        search : (req, res) => {
          db.Cancion.findAll({
              where: {
                  titulo: { [db.Sequelize.Op.like]: '%' + req.query.keyword + '%' }
@@ -196,7 +177,7 @@ let cancionesController = {
                 status: 500
             });
         });  
-     }
+     } */
     
 
     }
